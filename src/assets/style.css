@@ -1,3 +1,14 @@
+/* importing icon fonts */
+@font-face {
+    font-family: "HeydingsControlsRegular";
+    src: url("fonts/heydings_controls-webfont.eot");
+    src: url("fonts/heydings_controls-webfont.eot?#iefix") format("embedded-opentype"),
+      url("fonts/heydings_controls-webfont.woff") format("woff"),
+      url("fonts/heydings_controls-webfont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -14,11 +25,77 @@ body {
     justify-content: center;
     align-content: center;
     align-items: center;
-    background-color: aliceblue;
+    background-color: rgb(115, 120, 124);
 }
 
-.wrapper {
+.video--wrapper {
     height: 36rem;
     width: 60rem;
     background-color: lightblue;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.video {
+    height: 100%;
+    width: 100%;
+}
+
+/* sytling controls */
+.video--controls-container{
+    visibility: hidden;
+    opacity: 0.5;
+    width: 40rem;
+    border-radius: 1rem;
+    position: absolute;
+    bottom: 16rem;
+    /* left: 50%;
+    /* margin-left: -200px; */  /*decided to not use this lines by implementing grid in wrapper container*/ 
+    background-color: black;
+    box-shadow: 3px 3px 5px black;
+    transition: 1s all;
+    display: flex;
+}
+
+
+.video--wrapper:hover .video--controls-container,
+.video--wrapper:focus-within .video--controls-container {
+  opacity: 1;
+}
+
+/* buttons styling */
+button:before {
+    font-family: HeydingsControlsRegular;
+    font-size: 20px;
+    position: relative;
+    content: attr(data-icon);  /*referencing data-icon attribute from button to display an icon relative to the value  */
+    color: #aaa;
+    text-shadow: 1px 1px 0px black;
+  }
+
+.timer {
+    line-height: 3.8rem;
+    font-size: 1rem;
+    font-family: monospace;
+    text-shadow: 1px 1px 0px black;
+    color: white;
+    flex: 5;
+    position: relative;
+}
+
+.timer div {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.2);
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 3.8rem;
+    z-index: 2;
+}
+
+.timer span {
+    position: absolute;
+    z-index: 3;
+    left: 1.9rem;
 }
