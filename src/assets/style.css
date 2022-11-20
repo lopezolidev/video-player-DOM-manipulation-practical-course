@@ -30,7 +30,7 @@ body {
 
 .video--wrapper {
     height: 36rem;
-    width: 60rem;
+    width: 60rem; /* this is the "clientWidth" of the element when selected in the console*/
     background-color: lightblue;
     display: grid;
     justify-items: center;

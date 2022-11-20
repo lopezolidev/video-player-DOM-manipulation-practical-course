@@ -80,6 +80,12 @@ controls.style.visibility = "visible"
 
     //Play/pause event ↓
     function playPauseMedia (){
+                //to solve the problem of play/pause or stop when rewinding of fast-forwarding
+                rwd.classList.remove('active');
+                fwd.classList.remove('active');
+                clearInterval(intervalBwd)
+                clearInterval(intervalFwd)
+
         if(media.paused){ //attribute inside media (video)
             play.setAttribute('data-icon', 'u'); //change icon from play to pause ( || )
             media.play();
@@ -96,6 +102,12 @@ controls.style.visibility = "visible"
         media.pause(); //pause the video first
         media.currentTime = 0; //elapsed time of video → return it to 0
         play.setAttribute('data-icon', 'P') //change play button icon to "play" as in the start
+
+        //to solve the problem of play/pause or stop when rewinding of fast-forwarding
+        rwd.classList.remove('active');
+        fwd.classList.remove('active');
+        clearInterval(intervalBwd)
+        clearInterval(intervalFwd)
     }
 
     stop.addEventListener('click', stopMedia); //→ trigger the event of stopping the video when we click stop button
@@ -152,9 +164,10 @@ controls.style.visibility = "visible"
     function windBackward(){
         if(media.currentTime <= 3){ //if the elapsed time of the video is below 3 seconds ↓
             
-            rwd.classList.remove('active'); //remove the class 'active' from rwd
+            //these two lines had been implemented already in playPauseMedia and stopMedia functions
+            // rwd.classList.remove('active'); //remove the class 'active' from rwd
             
-            clearInterval(intervalBwd); //the loop inside intervalBwd get cleared
+            // clearInterval(intervalBwd); //the loop inside intervalBwd get cleared
             
             stopMedia(); //the video gets stopped
         } else { 
@@ -164,8 +177,8 @@ controls.style.visibility = "visible"
 
     function windForward() {
         if(media.currentTime >= media.duration - 3){
-            fwd.classList.remove('active');
-            clearInterval(intervalFwd);
+            // fwd.classList.remove('active');
+            // clearInterval(intervalFwd);
             stopMedia();
         } else {
             media.currentTime += 3;
@@ -174,5 +187,55 @@ controls.style.visibility = "visible"
 
     rwd.addEventListener('click', mediaBackward);
     fwd.addEventListener('click', mediaForward);
+
+//Implementing time update to time bar and video time counter
+
+    function setTime(){
+        const minutes = Math.floor(media.currentTime / 60); //media.currentTime is represented in seconds and divided by 60 makes up for minutes
+
+        const seconds = Math.floor(media.currentTime - minutes * 60); //seconds = total time (minutes + seconds) - minutes
+
+        const minuteValue = minutes.toString().padStart(2, '0'); //padStart() is used to make the value 2 characters long, even if the number is 1 digit long
+        const secondValue = seconds.toString().padStart(2, '0');
+    
+        const mediaTime = `${minuteValue}:${secondValue}`; //actual time value
+
+        timer.textContent = mediaTime; //replace original timer text content with mediaTime → also as is textContent will be displayed in the UI as such
+
+        const barLength = timerWrapper.clientWidth * (media.currentTime / media.duration); //media.currentTime = present elapsed time of the video. media.duration = total time of the video. the quotient gives us a number that multiplied by the clientWidth of the timerWrapper ends as a number of pixels that can be used as "growing factor" to the bar length. 
+        
+        //The length of the inner div comes from working out the length of the outer div length, which comes from clientWidth property
+
+        timer.style.width = `${barLength}px`;
+    }
+
+    media.addEventListener('timeupdate', setTime) //event timeupdate will fire as the video duration elapses from start to pause
+
+    //adding timer bar seek/scroll functionality
+    function seekBar(event){
+        //TODO → finish bar scroll
+        const selectedTime = Math.round((event.offsetX));
+
+        const minutes = Math.floor(media.currentTime / 60);
+    
+        const seconds = Math.round((selectedTime * media.duration) / timerWrapper.clientWidth);
+
+         const minuteValue = minutes.toString().padStart(2, '0'); //padStart() is used to make the value 2 characters long, even if the number is 1 digit long
+         const secondValue = seconds.toString().padStart(2, '0');
+    
+         const mediaTime = `${minuteValue}:${secondValue}`; //actual time value
+
+         media.currentTime = seconds;
+         timer.textContent = mediaTime;
+
+        // console.log(minutes)
+        // console.log(timerWrapper.clientWidth)
+        // console.log(selectedTime)
+        // console.log(seconds)
+
+    }
+
+    timerWrapper.addEventListener('click', seekBar);
+
 
 console.log({media})
