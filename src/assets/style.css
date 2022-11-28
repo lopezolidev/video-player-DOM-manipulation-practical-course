@@ -69,10 +69,33 @@ button:before {
     font-family: HeydingsControlsRegular;
     font-size: 20px;
     position: relative;
-    content: attr(data-icon);  /*referencing data-icon attribute from button to display an icon relative to the value  */
+    /*content: attr(data-icon);  /*referencing data-icon attribute from button to display an icon relative to the value  */
     color: #aaa;
     text-shadow: 1px 1px 0px black;
   }
+
+button {
+    height: 2rem;
+    width: 2rem;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 2rem;
+    width: 2rem;
+}
+
+.button-play {
+    background-image: url('https://img.icons8.com/ios/100/000000/play-button-circled--v1.png');
+}
+.button-stop {
+    background-image: url('https://img.icons8.com/ios/100/000000/stop.png');
+}
+.rwd {
+    background-image: url('https://img.icons8.com/ios/100/000000/rewind-button-round--v2.png');
+}
+.fwd{
+    background-image: url('https://img.icons8.com/ios/100/000000/fast-forward-round--v2.png');
+}
 
 .timer {
     line-height: 3.8rem;

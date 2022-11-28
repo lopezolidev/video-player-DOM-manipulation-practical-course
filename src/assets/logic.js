@@ -26,12 +26,12 @@ body.append(wrapper)
 
         //controls buttons
         const play = document.createElement('button'); //Play / Pause
-        play.className = "button-play";
+        play.classList.add("button-play");
         play.setAttribute('data-icon', 'P');
         play.setAttribute('aria-label', 'play pause toggle');
 
         const stop = document.createElement('button'); //Stop
-        stop.className = "button-stop";
+        stop.classList.add("button-stop");
         stop.setAttribute('data-icon', 'S');
         stop.setAttribute('aria-label', 'stop')
 
